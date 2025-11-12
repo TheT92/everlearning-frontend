@@ -1,0 +1,38 @@
+.page-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 0 30px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #fff;
+    .logo {
+        margin-right: 16px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #000000;
+    }
+    .nav-link {
+        display: inline-block;
+        padding: 0 4px;
+        height: 48px;
+        font-size: 16px;
+        color: #333;
+        &+.nav-link {
+            margin-left: 16px;
+        }
+        &.active {
+            font-weight: bold;
+            color: #000000;
+            font-size: 18px;
+            border-bottom: 2px solid #000000;
+        }
+    }
+    .login {
+        float: right;
+        font-size: 16px;
+        color: #000000;
+    }
+}
