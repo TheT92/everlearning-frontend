@@ -18,8 +18,9 @@ export default function Problems() {
     useEffect(() => {
         const page = searchParams.get('page');
         setCurrentPage(Number(page) < 1 ? 1 : Number(page));
+        console.log(`current page number: ${currentPage}`)
         fetchData();
-    }, []);
+    }, [searchParams]);
 
     const fetchData = () => {
         // Fetch problems data based on search params

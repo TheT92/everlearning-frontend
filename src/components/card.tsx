@@ -14,9 +14,12 @@ function Card({
 
         <div className={`el-card ${className}`}>
             <div className="el-card-wrap">
-                <div className="el-card-header mb-4">
-                    {title}
-                </div>
+                {
+                    title ? (<div className="el-card-header mb-4">
+                        {title}
+                    </div>) : null
+                }
+
                 <div className="el-card-body">
                     {children}
                 </div>

@@ -1,72 +1,5 @@
+@use './variables' as vars;
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
-
-$color-primary: #000000;
-$color-black: #000000;
-$color-desc: #cccccc;
-
-$step: 0.25rem;
-
-@for $i from 0 through 8 {
-  .p-#{$i} {
-    padding: $i * $step;
-  }
-
-  .pl-#{$i} {
-    padding-left: $i * $step;
-  }
-
-  .pr-#{$i} {
-    padding-right: $i * $step;
-  }
-
-  .pt-#{$i} {
-    padding-top: $i * $step;
-  }
-
-  .pb-#{$i} {
-    padding-bottom: $i * $step;
-  }
-}
-
-// margin
-@for $i from 0 through 8 {
-  .m-#{$i} {
-    margin: $i * $step;
-  }
-
-  .ml-#{$i} {
-    margin-left: $i * $step;
-  }
-
-  .mr-#{$i} {
-    margin-right: $i * $step;
-  }
-
-  .mt-#{$i} {
-    margin-top: $i * $step;
-  }
-
-  .mb-#{$i} {
-    margin-bottom: $i * $step;
-  }
-}
-
-$fw_base: 100;
-
-@for $i from 1 through 7 {
-  .fw-#{$i} {
-    font-weight: $i * $fw_base;
-  }
-}
-
-// font size
-$font_size: 0.75rem;
-
-@for $i from 0 through 6 {
-  .fs-#{$i} {
-    font-size: $i * 0.25 + $font_size !important;
-  }
-}
 
 body {
   font-family: 'Source Sans Pro', Arial, sans-serif;
@@ -77,17 +10,29 @@ body {
 
 body,
 * {
-  color: $color-black;
+  color: vars.$color-black;
   box-sizing: border-box;
 }
 
 a {
-  color: inherit;
+  color: vars.$color-black-6;
   text-decoration: none;
 
   &:hover {
-    text-shadow: #000000 0 0 1px;
+    color: vars.$color-black;
   }
+}
+
+.text-primary {
+  color: vars.$color-primary;
+}
+
+.text-white {
+  color: vars.$color-white;
+}
+
+.text-black {
+  color: vars.$color-black;
 }
 
 .text-center {
@@ -130,7 +75,6 @@ a {
   padding: 50px 20px 20px;
   min-height: 100vh;
   min-width: 320px;
-  width: 70%;
   margin: 0 auto;
 }
 
@@ -140,13 +84,13 @@ a {
   width: 100%;
   height: 32px;
   border-radius: 4px;
-  border: 1px solid $color-desc;
+  border: 1px solid vars.$color-desc;
 }
 
 .el-btn {
-  background-color: $color-primary;
+  background-color: vars.$color-primary;
   border: none;
-  color: #fff;
+  color: vars.$color-white;
   padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -154,8 +98,14 @@ a {
 
   &-outline {
     background-color: transparent;
-    border: 2px solid $color-primary;
-    color: $color-primary;
+    border: 2px solid vars.$color-primary;
+    color: vars.$color-primary;
+  }
+
+  &-text {
+    border: none;
+    background: none;
+    color: vars.$color-black-6;
   }
 
   &.el-btn-lg {
@@ -166,6 +116,11 @@ a {
 
   +.el-btn {
     margin-left: 10px;
+  }
+
+  +.el-btn-sm {
+    padding: 4px 6px;
+    margin-left: 4px;
   }
 }
 
@@ -179,10 +134,10 @@ a {
     cursor: pointer;
     font-size: 16px;
     text-align: center;
-    border-bottom: 2px solid $color-desc;
+    border-bottom: 2px solid vars.$color-desc;
 
     &.el-tab-active {
-      border-bottom: 2px solid $color-black;
+      border-bottom: 2px solid vars.$color-black;
     }
   }
 }
@@ -198,12 +153,37 @@ a {
 }
 
 .el-card {
-
   .el-card-wrap {
     border: 1px solid #eee;
     border-radius: 4px;
-    padding: 16px;
-    background-color: #fff;
+    padding: 1rem;
+    background-color: vars.$color-white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .el-card {
+    .el-card-wrap {
+      padding: 0.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .page-container {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 641px) {
+  .page-container {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .page-container {
+    width: 70%;
   }
 }

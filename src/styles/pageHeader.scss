@@ -1,3 +1,4 @@
+@use './variables' as vars;
 .page-header {
     position: fixed;
     left: 0;
@@ -7,32 +8,28 @@
     padding: 0 30px;
     height: 50px;
     line-height: 50px;
-    background-color: #fff;
+    background-color: vars.$color-white;
     .logo {
         margin-right: 16px;
         font-size: 24px;
         font-weight: bold;
-        color: #000000;
+        color: vars.$color-primary;
     }
     .nav-link {
         display: inline-block;
         padding: 0 4px;
         height: 48px;
         font-size: 16px;
-        color: #333;
         &+.nav-link {
             margin-left: 16px;
         }
         &.active {
-            font-weight: bold;
-            color: #000000;
-            font-size: 18px;
-            border-bottom: 2px solid #000000;
+            font-weight: 700;
+            color: vars.$color-primary;
+            border-bottom: 2px solid vars.$color-primary;
         }
     }
     .login {
         float: right;
-        font-size: 16px;
-        color: #000000;
     }
 }

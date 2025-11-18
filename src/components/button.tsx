@@ -4,6 +4,8 @@ interface Props {
     outlined?: boolean;
     size?: 'sm' | 'md' | 'lg';
     type?: "button" | "submit" | "reset";
+    onClick?: (...args: any) => void;
+    mode?: 'text' | null | '';
 }
 
 export default function Button({
@@ -11,9 +13,11 @@ export default function Button({
     children,
     outlined = false,
     size= 'md',
-    type = "button"
+    type = "button",
+    onClick = () => {},
+    mode = ''
 }: Props) {
     return (
-        <button type={type} className={`el-btn ${`el-btn-`+size} ${outlined ? 'el-btn-outline' : ''} ${className}`}>{children}</button>
+        <button type={type} onClick={onClick} className={`el-btn ${mode == 'text' ? 'el-btn-text' : ''} ${`el-btn-`+size} ${outlined ? 'el-btn-outline' : ''} ${className}`}>{children}</button>
     );
 }

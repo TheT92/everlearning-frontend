@@ -2,12 +2,14 @@ interface Props {
     placeholder?: string;
     type?: 'text' | 'password' | 'email' | 'number'; // 限制类型选项
     className?: string;
+    name?: string;
 }
 
 export default function Input({ 
     type = "text", 
     placeholder = "请输入...",
-    className = ""
+    className = "",
+    name=""
 }: Props) {
     const HandleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -16,6 +18,6 @@ export default function Input({
         }
     };
     return (
-        <input type={type} className={`el-input ${className}`} onKeyDown={HandleKeyDown} placeholder={placeholder} />
+        <input name={name} type={type} className={`el-input ${className}`} onKeyDown={HandleKeyDown} placeholder={placeholder} />
     );
 }

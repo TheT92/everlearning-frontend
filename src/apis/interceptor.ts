@@ -34,6 +34,7 @@ export const useAuthInterceptor = () => {
             case STATUS_CODES.UNAUTHORIZED:
                 localStorage.removeItem('token');
                 navigate('/login', { replace: true });
+                break;
             default:
                 return Promise.reject(error);
         }

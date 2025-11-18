@@ -1,7 +1,8 @@
 export const BASE_URL = "/api";
 
 export const EXCLUDE_ROUTERS = [
-    "/api/account/login"
+    "/api/login",
+    "/api/signup"
 ]
 
 export const STATUS_CODES = {
