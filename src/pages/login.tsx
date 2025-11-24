@@ -19,7 +19,7 @@ export default function Login() {
         console.log("Login data:", data);
         try {
             const response = await apiUserLogin(data);
-            console.log("Login successful:", response.data);
+            // console.log("Login successful:", response.data);
             const { token, prefix } = response.data
             localStorage.setItem('token', `${prefix} ${token}`);
             navigate('/', { replace: true })

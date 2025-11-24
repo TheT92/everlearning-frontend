@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 export default function Index() {
     useEffect(() => {
         document.title = "EverLearning-Home";
-        // fetchData();
+        fetchData();
     }, []);
 
     async function fetchData() {
