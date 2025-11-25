@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import Input from "../components/input";
 import { apiUserLogin } from "../apis/user";
 import Tab from "../components/tab";
@@ -9,8 +8,7 @@ import '../styles/login.scss';
 import Button from "../components/button";
 
 export default function Login() {
-    const navigate = useNavigate();
-    const handleLogin = async (e: FormEvent) => {
+    const handleLogin = (e: FormEvent) => {
         e.preventDefault();
         const data = {
             email: (e.target as any)[0].value,
@@ -18,11 +16,7 @@ export default function Login() {
         };
         console.log("Login data:", data);
         try {
-            const response = await apiUserLogin(data);
-            // console.log("Login successful:", response.data);
-            const { token, prefix } = response.data
-            localStorage.setItem('token', `${prefix} ${token}`);
-            navigate('/', { replace: true })
+            apiUserLogin(data);
         } catch (error) {
             console.error("Login failed:", error);
         }

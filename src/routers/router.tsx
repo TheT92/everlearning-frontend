@@ -58,7 +58,7 @@ function AppRouter() {
                         <Route path='/' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
                         <Route path='/todo' element={<ProtectedRoute><Todo /></ProtectedRoute>} />
                         <Route path='/problems' element={<ProtectedRoute><Problems /></ProtectedRoute>} />
-                        <Route path='/problem/:id' element={<ProtectedRoute><Problem /></ProtectedRoute>} />
+                        <Route path='/problem/:uuid' element={<ProtectedRoute><Problem /></ProtectedRoute>} />
                         <Route path='/courses' element={<ProtectedRoute><Courses /></ProtectedRoute>} />
                     </Route>
                     <Route path='/login' element={<Login />} />

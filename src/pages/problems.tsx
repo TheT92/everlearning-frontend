@@ -2,16 +2,19 @@ import { Link } from "react-router-dom";
 import Button from "../components/button";
 import Input from "../components/input";
 import List from "../components/list";
-import Pagination from "../components/pagination";
+import { Pagination, Divider } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import '../styles/problems.scss';
 import { use, useEffect, useState } from "react";
 import { apiGetCategories } from "../apis/category";
+import { apiGetProblems } from "../apis/problem";
 
 export default function Problems() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const [total, setTotal] = useState(0);
+    const [problems, setProblems] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [categories, setCategories] = useState([])
 
@@ -26,7 +29,16 @@ export default function Problems() {
     }, [searchParams]);
 
     const fetchData = () => {
-        // Fetch problems data based on search params
+        apiGetProblems({ page: currentPage, size: 10 }).then(res => {
+            const {
+                items,
+                total,
+            } = res?.data
+            setTotal(total);
+            setProblems(items);
+        }).catch(err => {
+            console.log(err, '22222222222222222')
+        })
     };
 
     const getProblemCategories = () => {
@@ -44,21 +56,21 @@ export default function Problems() {
 
     return (
         <div className="page-container problems-page">
-            <Input type="text" className="search-bar" placeholder="Search here" />
-            <p>
+            <Input type="text" className="search-bar mb-8" placeholder="Search here" />
+            <p className="mb-0">
                 {
                     categories.map((v:any, i) => (<Button key={i} className="search-button mb-2" outlined>{v.name}</Button>))
                 }
             </p>
+            <Divider></Divider>
             <List className="problem-list">
                 {
-                    Array.from({ length: 10 }).map((_, index) => (
-                        <List.Item className="problem-item" key={index}><Link className="full-width d-block" to={`/problem/${index + 1}`}>Item {index + 1}</Link></List.Item>
+                    problems.map((v, i) => (
+                        <List.Item className="problem-item" key={i}><Link className="full-width d-block" to={`/problem/${v.uuid}`}>{v.title}</Link></List.Item>
                     ))
                 }
             </List>
-
-            <Pagination onPageChange={onPageChange} data={{ currentPage: currentPage, total: 99 }} />
+            <Pagination align="center" onChange={onPageChange} current={currentPage} total={total} />
         </div>
     );
 }

@@ -10,7 +10,7 @@ body {
 
 body,
 * {
-  color: vars.$color-black;
+  // color: vars.$color-black;
   box-sizing: border-box;
 }
 
@@ -69,6 +69,10 @@ a {
 
 .full-width {
   width: 100%;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
 }
 
 .page-container {

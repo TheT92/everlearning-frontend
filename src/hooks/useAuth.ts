@@ -27,6 +27,7 @@ export const useAuth = () => {
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');
+        localStorage.removeItem('email');
         setIsAuthenticated(false);
     }, []);
 

@@ -7,7 +7,7 @@ const EXCLUDE_ROUTERS = ['/login', '/signup']; // 不需要 token 的路由
 
 export const useAuthInterceptor = (auth: any) => {
     const navigate = useNavigate();
-    const { logout, checkAuth } = auth;
+    const { logout, login, checkAuth } = auth;
 
     useEffect(() => {
         // 请求拦截器
@@ -33,7 +33,17 @@ export const useAuthInterceptor = (auth: any) => {
 
         // 响应拦截器
         const responseInterceptor = axios.interceptors.response.use(
-            response => response,
+            response => {
+                const url = response.config?.url || '';
+                if(url.endsWith('/login')) {
+                    const data = JSON.parse(response.config?.data)
+                    const token = response.data?.token || '';
+                    localStorage.setItem('email', data.email);
+                    login(token);
+                    navigate('/', { replace: true })
+                }
+                return response
+            },
             (error) => {
                 const status = error.response?.status;
                 switch (Number(status)) {

@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 export default function PageHeader() {
     const location = useLocation();
     // console.log("Current location:", location.pathname);
+    const email = localStorage.getItem('email');
     const links = [
         { to: '/', label: 'Home' },
         { to: '/problems', label: 'Problems' },
@@ -18,7 +19,7 @@ export default function PageHeader() {
                     <Link key={link.to} className={`nav-link ${link.to == location.pathname ? 'active' : ''}`} to={link.to}>{link.label}</Link>
                 ))
             }
-            <Link className='login fs-1' to="/login">Sign In/ Sign Up</Link>
+            <Link className='login fs-1' to={email ? `/my` : '/login'}>{email || `Sign In/ Sign Up`}</Link>
         </header>
     );
 }
