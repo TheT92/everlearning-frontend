@@ -71,6 +71,10 @@ a {
   width: 100%;
 }
 
+.full-height {
+  height: 100%;
+}
+
 .pre-wrap {
   white-space: pre-wrap;
 }
@@ -116,10 +120,6 @@ a {
     padding: 10px 16px;
     width: 100%;
     font-size: 18px;
-  }
-
-  +.el-btn {
-    margin-left: 10px;
   }
 
   +.el-btn-sm {

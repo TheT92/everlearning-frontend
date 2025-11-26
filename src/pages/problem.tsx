@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { apiGetProblemDetail } from "../apis/problem";
 import { Button, Divider } from "antd";
 import TextArea from "antd/es/input/TextArea";
+
+import '../styles/problem-detail.scss';
+
 export default function Problem() {
     const { uuid = '' } = useParams();
     const email = localStorage.getItem('email');
@@ -15,23 +18,23 @@ export default function Problem() {
     }, []);
 
     const fetchData = () => {
-        console.log(uuid, '00000000000000000000');
         apiGetProblemDetail(uuid).then(res => {
             setProblem({ ...res.data })
         }).catch(err => {
-            console.log(err, '22222222222222222')
+            console.error(err);
         })
     };
 
     return (
-        <div className="page-container problem-page">
-            <div className="d-flex">
+        <div className="page-container problem-detail">
+            <div className="d-flex problem-wrap">
                 <div className="flex-1">
                     <h3>{problem.title}</h3>
                     <p>{problem.description}</p>
                 </div>
+                <div className="ml-4 mr-4"><Divider vertical className="full-height"></Divider></div>
                 <div className="flex-1">
-                    <h3>You Answer</h3>
+                    <h3>Your Answer</h3>
                     {
                         !email ? (
                             <div className="d-flex flex-column align-center justify-center mb-8">

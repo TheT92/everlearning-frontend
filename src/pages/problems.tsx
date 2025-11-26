@@ -6,38 +6,38 @@ import { Pagination, Divider } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import '../styles/problems.scss';
-import { use, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiGetCategories } from "../apis/category";
 import { apiGetProblems } from "../apis/problem";
 
 export default function Problems() {
     const navigate = useNavigate();
+    const loaded = useRef(false);
     const [searchParams] = useSearchParams();
     const [total, setTotal] = useState(0);
     const [problems, setProblems] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [categories, setCategories] = useState([])
 
-
-
     useEffect(() => {
-        const page = searchParams.get('page');
-        setCurrentPage(Number(page) < 1 ? 1 : Number(page));
-        console.log(`current page number: ${currentPage}`)
-        fetchData();
-        getProblemCategories()
+        if (!loaded.current) {
+            loaded.current = true;
+            const page = searchParams.get('page');
+            const pageNumber = Number(page) < 1 ? 1 : Number(page);
+            setCurrentPage(pageNumber);
+            getProblemCategories();
+            fetchData(pageNumber); // 直接传入计算出的 pageNumber
+        }
+
     }, [searchParams]);
 
-    const fetchData = () => {
-        apiGetProblems({ page: currentPage, size: 10 }).then(res => {
-            const {
-                items,
-                total,
-            } = res?.data
+    const fetchData = (page = 1) => {
+        apiGetProblems({ page: page, size: 10 }).then(res => {
+            const { items, total } = res?.data;
             setTotal(total);
             setProblems(items);
         }).catch(err => {
-            console.log(err, '22222222222222222')
+            console.log(err, 'fetch error');
         })
     };
 
@@ -59,7 +59,7 @@ export default function Problems() {
             <Input type="text" className="search-bar mb-8" placeholder="Search here" />
             <p className="mb-0">
                 {
-                    categories.map((v:any, i) => (<Button key={i} className="search-button mb-2" outlined>{v.name}</Button>))
+                    categories.map((v: any, i) => (<Button key={i} className="search-button mb-2 mr-2" outlined>{v.name}</Button>))
                 }
             </p>
             <Divider></Divider>
