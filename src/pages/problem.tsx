@@ -1,20 +1,28 @@
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { apiGetProblemDetail } from "../apis/problem";
-import { Button, Divider } from "antd";
+import { Button, Divider, Tooltip } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import {
+    LeftOutlined,
+    RightOutlined
+} from '@ant-design/icons';
 
 import '../styles/problem-detail.scss';
 
 export default function Problem() {
+    const navigate = useNavigate();
+    const loaded = useRef(false);
     const { uuid = '' } = useParams();
     const email = localStorage.getItem('email');
-
     const [problem, setProblem] = useState<any>({});
-
+    const [showAnswer, setShowAnswer] = useState(false);
 
     useEffect(() => {
-        fetchData();
+        if (!loaded.current) {
+            loaded.current = true;
+            fetchData();
+        }
     }, []);
 
     const fetchData = () => {
@@ -25,10 +33,26 @@ export default function Problem() {
         })
     };
 
+    const toogleProblem = (id: string) => {
+        navigate(`/problem/${id}`);
+    }
+
     return (
         <div className="page-container problem-detail">
             <div className="d-flex problem-wrap">
                 <div className="flex-1">
+                    <div className="d-flex mb-4">
+                        <Tooltip title="Previous Problem">
+                            <Button onClick={() => toogleProblem(problem.prev_id)} disabled={problem.prev_id == null || problem.prev_id == undefined} type="primary" className="mr-4">
+                                <LeftOutlined />
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Next Problem">
+                            <Button onClick={() => toogleProblem(problem.next_id)} disabled={problem.next_id == null || problem.next_id == undefined} type="primary">
+                                <RightOutlined />
+                            </Button>
+                        </Tooltip>
+                    </div>
                     <h3>{problem.title}</h3>
                     <p>{problem.description}</p>
                 </div>
@@ -45,7 +69,18 @@ export default function Problem() {
                             <div>
                                 <TextArea rows={10}></TextArea>
                                 <p>Your answer will be scored by AI based on the default answer.</p>
-                                <Button type="primary">Submit</Button>
+                                <p>
+                                    <Button type="primary" className="mr-4">Submit</Button>
+                                    <Button onClick={() => setShowAnswer(!showAnswer)} type="primary">{showAnswer ? 'Hide' : 'Show'} Answer</Button>
+                                </p>
+                                {
+                                    showAnswer ?
+                                        <section className="pre-wrap">
+                                            <h3 className="mt-0 mb-4">Default Answer</h3>
+                                            {problem.answer}
+                                        </section> :
+                                        null
+                                }
                             </div>
                         )
                     }

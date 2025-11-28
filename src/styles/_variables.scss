@@ -5,6 +5,9 @@ $color-black-6: #666666;
 $color-black-9: #999999;
 $color-white: #ffffff;
 $color-desc: #cccccc;
+$color-green: #49aa19;
+$color-orange: #ffb700;
+$color-red: #dc4446;
 
 $step: 0.25rem;
 
@@ -67,5 +70,11 @@ $font_size: 0.75rem;
 @for $i from 0 through 6 {
   .fs-#{$i} {
     font-size: $i * 0.25 + $font_size !important;
+  }
+}
+
+@for $i from 1 through 6 {
+  .flex-#{$i} {
+    flex: $i;
   }
 }

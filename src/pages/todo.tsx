@@ -18,17 +18,6 @@ export default function Todo() {
                 <li><p>Course detail page</p></li>
                 <li>...</li>
             </ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         </div>
     );
 }
