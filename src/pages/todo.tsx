@@ -6,9 +6,7 @@ export default function Todo() {
                 <li><p>Users can submit questions, which are then reviewed by the backend. Once approved, questions are updated daily at midnight.</p></li>
                 <li><p>Internal messages</p></li>
                 <li><p>Membership system, paid membership upgrade</p></li>
-                <li><p>Problem categories</p></li>
                 <li><p>User center</p></li>
-                <li><p>Problem Difficulty Levels</p></li>
                 <li><p>Problem collection feature</p></li>
                 <li><p>User community</p></li>
                 <li><p>Daily Problem</p></li>

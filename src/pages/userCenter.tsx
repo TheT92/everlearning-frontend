@@ -1,5 +1,6 @@
 import { Card, Pagination, Progress, Table, type TableProps, Image, Button } from "antd";
 import { useState } from "react";
+import { apiUserLogout } from "../apis/user";
 
 interface DataType {
     title: string;
@@ -31,6 +32,10 @@ export default function UserCenter() {
 
     const onPageChange = (page: number) => {
         console.log("Page changed to:", page);
+    }
+
+    const handleLogout = () => {
+        apiUserLogout();
     }
 
     return (
@@ -75,7 +80,8 @@ export default function UserCenter() {
                         <p className="mt-0">Username</p>
                     </div>
                 </div>
-                <Button className="full-width" color="primary" variant="outlined">Edit Profile</Button>
+                <Button className="full-width mb-4" color="primary" variant="outlined">Edit Profile</Button>
+                <Button className="full-width" color="danger" variant="outlined" onClick={handleLogout}>Logout</Button>
             </Card>
         </div>
     );

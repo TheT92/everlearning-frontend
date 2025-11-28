@@ -12,6 +12,8 @@ const Problems = lazy(() => import('../pages/problems.tsx'));
 const Problem = lazy(() => import('../pages/problem.tsx'));
 const Courses = lazy(() => import('../pages/courses.tsx'));
 const UserCenter = lazy(() => import('../pages/userCenter.tsx'));
+const NewCourse = lazy(() => import('../pages/editCourse.tsx'));
+const CourseDetail = lazy(() => import('../pages/courseDetail.tsx'));
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -45,7 +47,6 @@ function AppRouter() {
             }
 
             if (!isAuthenticated) {
-                // 只传递路径，而不是整个 location 对象
                 return <Navigate to="/login" replace state={{ from: location.pathname }} />;
             }
 
@@ -61,7 +62,9 @@ function AppRouter() {
                         <Route path='/problems' element={<ProtectedRoute><Problems /></ProtectedRoute>} />
                         <Route path='/problem/:uuid' element={<ProtectedRoute><Problem /></ProtectedRoute>} />
                         <Route path='/courses' element={<ProtectedRoute><Courses /></ProtectedRoute>} />
+                        <Route path='/courses/add' element={<ProtectedRoute><NewCourse /></ProtectedRoute>} />
                         <Route path='/my' element={<ProtectedRoute><UserCenter /></ProtectedRoute>} />
+                        <Route path='/course/:uuid' element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
                     </Route>
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<Signup />} />

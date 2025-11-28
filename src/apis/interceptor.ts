@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const EXCLUDE_ROUTERS = ['/login', '/signup']; // 不需要 token 的路由
+const LOGOUT_URL = '/logout';
 
 export const useAuthInterceptor = (auth: any) => {
     const navigate = useNavigate();
@@ -14,8 +15,10 @@ export const useAuthInterceptor = (auth: any) => {
         const requestInterceptor = axios.interceptors.request.use(
             (config) => {
                 const url = config.url || '';
-                // 判断是否存在token,如果存在将每个页面header添加token
-                if (!EXCLUDE_ROUTERS.some(route => url.includes(route))) {
+                if(url.endsWith(LOGOUT_URL)) {
+                    logout();
+                    navigate('/login', { replace: true });
+                }else if (!EXCLUDE_ROUTERS.some(route => url.includes(route))) {
                     const token = localStorage.getItem("token");
                     if (token) {
                         config.headers.Authorization = `Bearer ${token}`;

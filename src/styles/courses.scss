@@ -1,0 +1,19 @@
+.courses-page {
+    .course-list {
+        position: relative;
+        margin: 0 -8px 1rem;
+        &::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .course-item {
+            float: left;
+            width: 25%;
+            padding: 0 8px;
+            .ant-card {
+                min-height: 120px;
+            }
+        }
+    }
+}
