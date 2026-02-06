@@ -4,4 +4,149 @@
         padding: 24px;
         background-color: #fff;
     }
+
+    .problem-header {
+        .problem-label {
+            margin: 0 0 4px;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #999;
+        }
+
+        .problem-title {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .problem-nav-buttons {
+            flex-shrink: 0;
+
+            .ant-btn {
+                border-radius: 999px;
+            }
+        }
+    }
+
+    .flashcard {
+        border-radius: 18px;
+        border: 1px solid #000;
+        position: relative;
+        cursor: grab;
+        user-select: none;
+        perspective: 1200px;
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            background-color 0.25s ease;
+
+        &.is-dragging {
+            cursor: grabbing;
+            box-shadow: 0 22px 55px rgba(15, 23, 42, 0.18);
+        }
+    }
+
+    .flashcard-inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        transform-style: preserve-3d;
+        transition: transform 0.32s ease;
+    }
+
+    .flashcard.is-flipped .flashcard-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 24px 26px;
+        box-sizing: border-box;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        overflow-y: auto;
+    }
+
+    .flashcard-front {
+        background: linear-gradient(135deg, #f9fafb, #eff6ff);
+    }
+
+    .flashcard-back {
+        background: linear-gradient(135deg, #ecfeff, #eff6ff);
+        transform: rotateY(180deg);
+    }
+
+    .flashcard-status {
+        align-self: stretch;
+        display: flex;
+        justify-content: center;
+        margin-top: 4px;
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+
+            &.status-known {
+                background-color: #ecfdf3;
+                color: #15803d;
+            }
+
+            &.status-unknown {
+                background-color: #fef2f2;
+                color: #b91c1c;
+            }
+        }
+    }
+
+    .flashcard-actions {
+        align-self: stretch;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        .flashcard-action-btn {
+            flex: 1 1 45%;
+            min-width: 0;
+            height: 44px;
+            font-weight: 500;
+            border-radius: 999px;
+        }
+
+        .flashcard-action-unknown {
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+
+        .flashcard-action-known {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+        }
+    }
+
+    .flashcard-hint {
+        align-self: stretch;
+        margin: 4px 0 0;
+        font-size: 13px;
+        color: #6b7280;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        padding: 56px 16px 20px;
+
+        .flashcard-face {
+            padding: 18px 18px;
+        }
+    }
 }

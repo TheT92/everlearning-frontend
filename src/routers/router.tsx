@@ -22,10 +22,10 @@ interface ProtectedRouteProps {
 function AppRouter() {
     const MainLayout = () => {
         return (
-            <div>
+            <>
                 <PageHeader />
                 <Outlet /> {/* 渲染子路由页面 */}
-            </div>
+            </>
         );
     };
 

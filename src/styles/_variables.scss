@@ -67,7 +67,7 @@ $fw_base: 100;
 // font size
 $font_size: 0.75rem;
 
-@for $i from 0 through 6 {
+@for $i from 0 through 8 {
   .fs-#{$i} {
     font-size: $i * 0.25 + $font_size !important;
   }
