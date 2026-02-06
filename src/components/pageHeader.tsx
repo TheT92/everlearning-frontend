@@ -11,7 +11,6 @@ export default function PageHeader() {
         { href: '/', label: 'Home' },
         { href: '/problems', label: 'Problems' },
         { href: '/community', label: 'Community' },
-        { href: '/todo', label: 'Todo List' },
         email ? { href: '/my', label: 'Mine' } : { href: '/login', label: 'Sign In/ Sign Up' }
     ];
     return (

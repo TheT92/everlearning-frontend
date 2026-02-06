@@ -3,14 +3,21 @@ import {
     useEffect,
     useRef,
     useState,
-    type MouseEvent as ReactMouseEvent,
     type TouchEvent as ReactTouchEvent,
 } from "react";
-import { apiGetProblemDetail } from "../apis/problem";
+import {
+    apiGetProblemDetail,
+    apiRecordReview,
+    apiGetReviewStatus,
+    apiGetFavoriteStatus,
+    apiToggleFavorite,
+} from "../apis/problem";
 import { Button } from "antd";
 import {
     LeftOutlined,
-    RightOutlined
+    RightOutlined,
+    HeartOutlined,
+    HeartFilled,
 } from '@ant-design/icons';
 
 import '../styles/problem-detail.scss';
@@ -24,44 +31,38 @@ export default function Problem() {
     const [showAnswer, setShowAnswer] = useState(false);
     const [dragX, setDragX] = useState(0);
     const [statusMap, setStatusMap] = useState<Record<string, ReviewStatus | undefined>>({});
+    const [favoriteMap, setFavoriteMap] = useState<Record<string, boolean>>({});
 
     const isDraggingRef = useRef(false);
     const startXRef = useRef(0);
     const hasDraggedRef = useRef(false);
 
     const currentStatus = uuid ? statusMap[uuid] : undefined;
+    const isFavorite = uuid ? !!favoriteMap[uuid] : false;
 
     useEffect(() => {
-        try {
-            const stored = localStorage.getItem('problemReviewStatus');
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                if (parsed && typeof parsed === 'object') {
-                    const sanitized: Record<string, ReviewStatus> = {};
-                    Object.entries(parsed).forEach(([key, value]) => {
-                        if (value === 'known' || value === 'unknown') {
-                            sanitized[key] = value;
-                        } else if (value === 'mastered') {
-                            sanitized[key] = 'known';
-                        } else if (value === 'forgot' || value === 'uncertain') {
-                            sanitized[key] = 'unknown';
-                        }
-                    });
-                    setStatusMap(sanitized);
-                }
-            }
-        } catch (e) {
-            console.error('Failed to load problem review status', e);
-        }
+        apiGetReviewStatus()
+            .then(res => {
+                const data = res.data?.data ?? {};
+                const sanitized: Record<string, ReviewStatus> = {};
+                Object.entries(data).forEach(([key, value]) => {
+                    sanitized[key] = value === true ? 'known' : 'unknown';
+                });
+                setStatusMap(sanitized);
+            })
+            .catch(e => console.error('Failed to load review status', e));
+
+        apiGetFavoriteStatus()
+            .then(res => {
+                const data = res.data?.data ?? {};
+                const sanitized: Record<string, boolean> = {};
+                Object.entries(data).forEach(([key, value]) => {
+                    sanitized[key] = Boolean(value);
+                });
+                setFavoriteMap(sanitized);
+            })
+            .catch(e => console.error('Failed to load favorite status', e));
     }, []);
-
-    useEffect(() => {
-        try {
-            localStorage.setItem('problemReviewStatus', JSON.stringify(statusMap));
-        } catch (e) {
-            console.error('Failed to save problem review status', e);
-        }
-    }, [statusMap]);
 
     useEffect(() => {
         fetchData();
@@ -81,8 +82,27 @@ export default function Problem() {
         navigate(`/problem/${id}`);
     }
 
+    const toggleFavorite = () => {
+        if (!uuid) return;
+        const next = !isFavorite;
+        setFavoriteMap(prev => ({
+            ...prev,
+            [uuid]: next,
+        }));
+        apiToggleFavorite(uuid, next).catch(e => {
+            console.error('Failed to toggle favorite', e);
+            // rollback on error
+            setFavoriteMap(prev => ({
+                ...prev,
+                [uuid]: !next,
+            }));
+        });
+    };
+
     const handleChoice = (status: ReviewStatus, options?: { goNext?: boolean }) => {
         if (!uuid) return;
+        const remembered = status === 'known';
+        apiRecordReview(uuid, remembered).catch(e => console.error('Failed to record review', e));
         setStatusMap(prev => ({
             ...prev,
             [uuid]: status,
@@ -107,31 +127,6 @@ export default function Problem() {
         setDragX(0);
         isDraggingRef.current = false;
         hasDraggedRef.current = false;
-    };
-
-    const handleMouseDown = (e: ReactMouseEvent<HTMLDivElement>) => {
-        isDraggingRef.current = true;
-        hasDraggedRef.current = false;
-        startXRef.current = e.clientX;
-    };
-
-    const handleMouseMove = (e: ReactMouseEvent<HTMLDivElement>) => {
-        if (!isDraggingRef.current) return;
-        const deltaX = e.clientX - startXRef.current;
-        setDragX(deltaX);
-        if (Math.abs(deltaX) > 5) {
-            hasDraggedRef.current = true;
-        }
-    };
-
-    const handleMouseUp = () => {
-        if (!isDraggingRef.current) return;
-        finishDrag();
-    };
-
-    const handleMouseLeave = () => {
-        if (!isDraggingRef.current) return;
-        finishDrag();
     };
 
     const handleTouchStart = (e: ReactTouchEvent<HTMLDivElement>) => {
@@ -183,10 +178,6 @@ export default function Problem() {
             <div
                 className={`flashcard flex-1 mb-6 ${showAnswer ? 'is-flipped' : ''} ${dragX !== 0 ? 'is-dragging' : ''}`}
                 onClick={handleCardClick}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -237,13 +228,19 @@ export default function Problem() {
                         >
                             <RightOutlined />
                         </Button>
+                        <Button
+                            className={`ml-4 favorite-btn ${isFavorite ? 'is-favorite' : ''}`}
+                            shape="circle"
+                            type={isFavorite ? "primary" : "default"}
+                            onClick={toggleFavorite}
+                            icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+                        />
                     </div>
                 </div>
             </div>
             <p className="flashcard-hint">
-                Tap the card to flip between question and answer.
-                On desktop or mobile, swipe right to mark as "Remembered" or swipe left to mark as "Not remembered" and automatically move to the next problem.
-                On desktop you can also use the left and right arrow keys to do the same.
+                Tap the card to flip between question and answer.<br/>
+                On mobile, swipe right to mark as "Remembered" or swipe left to mark as "Not remembered" and automatically move to the next problem.
             </p>
         </div>
     );

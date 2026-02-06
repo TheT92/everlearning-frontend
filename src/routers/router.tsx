@@ -7,7 +7,6 @@ import { useAuth } from '../hooks/useAuth.ts';
 
 const Login = lazy(() => import('../pages/login.tsx'));
 const Signup = lazy(() => import('../pages/signup.tsx'));
-const Todo = lazy(() => import('../pages/todo.tsx'));
 const Problems = lazy(() => import('../pages/problems.tsx'));
 const Problem = lazy(() => import('../pages/problem.tsx'));
 const Courses = lazy(() => import('../pages/courses.tsx'));
@@ -58,10 +57,9 @@ function AppRouter() {
                 <Routes>
                     <Route element={<MainLayout />}>
                         <Route path='/' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-                        <Route path='/todo' element={<ProtectedRoute><Todo /></ProtectedRoute>} />
                         <Route path='/problems' element={<ProtectedRoute><Problems /></ProtectedRoute>} />
                         <Route path='/problem/:uuid' element={<ProtectedRoute><Problem /></ProtectedRoute>} />
-                        <Route path='/courses' element={<ProtectedRoute><Courses /></ProtectedRoute>} />
+                        <Route path='/community' element={<ProtectedRoute><Courses /></ProtectedRoute>} />
                         <Route path='/courses/add' element={<ProtectedRoute><NewCourse /></ProtectedRoute>} />
                         <Route path='/my' element={<ProtectedRoute><UserCenter /></ProtectedRoute>} />
                         <Route path='/course/:uuid' element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />

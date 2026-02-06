@@ -36,7 +36,7 @@ export default function EditCourse() {
         apiAddCourse(values).then(res => {
             console.log("success", res)
             message.success("Add course successfully!")
-            navigate('/courses', { replace: true });
+            navigate('/community', { replace: true });
         }).catch(err => {
             console.log("error", err)
             message.error("Add course failed");

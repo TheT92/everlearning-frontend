@@ -43,10 +43,10 @@ export default function Index() {
                 <p className="mb-6">Learn, teach, and grow through communication!</p>
                 <Input type="search" className="search-bar" placeholder="Search here" />
             </div>
-            <h3 className="mb-2 text-black mt-0 fs-3">Question of the day</h3>
-            <Card className="text-center mb-8 fs-2 z-index-2 daily-question">
-                <p className="mb-4 fs-2 fw-5 mt-0">What is the time complexity of binary search?</p>
-                <Link to="problem/3"><Button className="">Attempt</Button></Link>
+            <h3 className="mb-2 text-black mt-0 fs-3 z-index-2">Question of the day</h3>
+            <Card className="text-center mb-8 fs-2 daily-question">
+                <p className="mb-4 fs-2 fw-5 mt-0 z-index-2">What is the time complexity of binary search?</p>
+                <Link to="problem/3"><Button className="z-index-2">Attempt</Button></Link>
             </Card>
             <h3 className="mb-2 text-black mt-0 fs-3">Recommendation for you</h3>
             <div className="recommendations z-index-2">

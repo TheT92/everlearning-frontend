@@ -1,4 +1,6 @@
 .problem-detail {
+    overflow: hidden;
+
     .problem-wrap {
         height: calc(100vh - 90px);
         padding: 24px;
@@ -26,6 +28,10 @@
 
             .ant-btn {
                 border-radius: 999px;
+            }
+
+            .favorite-btn.is-favorite {
+                box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
             }
         }
     }
@@ -76,7 +82,7 @@
     }
 
     .flashcard-front {
-        background: linear-gradient(135deg, #f9fafb, #eff6ff);
+        background: #fff;
     }
 
     .flashcard-back {
@@ -143,8 +149,6 @@
     }
 
     @media (max-width: 768px) {
-        padding: 56px 16px 20px;
-
         .flashcard-face {
             padding: 18px 18px;
         }
